@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a911b422-700e-4269-adcd-c5e30594cf43",
+		"_postman_id": "3251155c-2147-4ba1-bae0-8351b7bbcfae",
 		"name": "rollerspeed",
 		"description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Scripts\" tab**\n\nAdding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/fa30ea0a-373d-4545-a668-e7b283cca343/aW1hZ2UucG5n\" alt=\"\" height=\"1530\" width=\"2162\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -26,6 +26,9 @@
 							}
 						}
 					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -35,10 +38,24 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{base_url_v1_users_tmp}}",
+							"raw": "http://localhost:8080/users",
+							"protocol": "http",
 							"host": [
-								"{{base_url_v1_users_tmp}}"
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
 							]
 						},
 						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
@@ -187,9 +204,31 @@
 			"item": [
 				{
 					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"pm.environment.unset(\"token\", response.token);\r",
+									"pm.environment.set(\"token\", response.token);\r",
+									"console.log(\"Token guardado:\", pm.environment.get(\"token\"));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n  \"username\": \"admin\",\r\n  \"password\": \"123\"\r\n}\r\n",
@@ -200,9 +239,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url_v1__auth_login}}",
+							"raw": "{{base_url}}/auth/login",
 							"host": [
-								"{{base_url_v1__auth_login}}"
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
 							]
 						}
 					},
@@ -212,10 +255,16 @@
 					"name": "Register",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"username\": \"admin\",\r\n  \"password\": \"123\",\r\n  \"fullName\": \"Administrador del Sistema\",\r\n  \"email\": \"admin@rollerspeed.com\",\r\n  \"role\": \"ADMIN\",\r\n  \"enabled\": true\r\n}\r\n",
+							"raw": "{\r\n  \"username\": \"admin3\",\r\n  \"password\": \"123\",\r\n  \"fullName\": \"Administrador del Sistema\",\r\n  \"email\": \"admin3@rollerspeed.com\",\r\n  \"role\": \"ADMIN\",\r\n  \"enabled\": true\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -239,18 +288,21 @@
 				},
 				{
 					"name": "Me",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "",
+								"value": "{{authorization}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"username\": \"admin\",\r\n  \"password\": \"123\",\r\n  \"fullName\": \"Administrador del Sistema\",\r\n  \"email\": \"admin@rollerspeed.com\",\r\n  \"role\": \"ADMIN\",\r\n  \"enabled\": true\r\n}\r\n",
+							"raw": "{\r\n  \"Authorization\": \"{{authorization}}\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -258,21 +310,42 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/auth/me?",
-							"protocol": "http",
+							"raw": "{{base_url}}/auth/me",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"auth",
 								"me"
-							],
-							"query": [
-								{
-									"key": "",
-									"value": null
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Authorization\": \"{{token}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_v1_auth_logout}}",
+							"host": [
+								"{{base_url_v1_auth_logout}}"
 							]
 						}
 					},
@@ -299,41 +372,6 @@
 					""
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"key": "base_url",
-			"value": ""
-		},
-		{
-			"key": "id",
-			"value": "1"
-		},
-		{
-			"key": "base_url_v1_users",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"key": "base_url_v1_users_tmp",
-			"value": "",
-			"type": "default"
-		},
-		{
-			"key": "authorization",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"key": "token",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"key": "base_url_v1__auth_login",
-			"value": "",
-			"type": "string"
 		}
 	]
 }

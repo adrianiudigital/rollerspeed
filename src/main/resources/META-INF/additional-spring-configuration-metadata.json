@@ -1,0 +1,62 @@
+{"properties": [
+  {
+    "name": "api.version",
+    "type": "java.lang.String",
+    "description": "A description for 'api.version'"
+  },
+  {
+    "name": "api.auth.login",
+    "type": "java.lang.String",
+    "description": "A description for 'api.auth.login'"
+  },
+  {
+    "name": "api.base-path",
+    "type": "java.lang.String",
+    "description": "A description for 'api.base-path'"
+  },
+  {
+    "name": "api.auth.base",
+    "type": "java.lang.String",
+    "description": "A description for 'api.auth.base'"
+  },
+  {
+    "name": "api.auth.register",
+    "type": "java.lang.String",
+    "description": "A description for 'api.auth.register'"
+  },
+  {
+    "name": "api.auth.logout",
+    "type": "java.lang.String",
+    "description": "A description for 'api.auth.logout'"
+  },
+  {
+    "name": "api.auth.me",
+    "type": "java.lang.String",
+    "description": "A description for 'api.auth.me'"
+  },
+  {
+    "name": "api.users.base",
+    "type": "java.lang.String",
+    "description": "A description for 'api.users.base'"
+  },
+  {
+    "name": "api.users.instructors",
+    "type": "java.lang.String",
+    "description": "A description for 'api.users.instructors'"
+  },
+  {
+    "name": "api.users.students",
+    "type": "java.lang.String",
+    "description": "A description for 'api.users.students'"
+  },
+  {
+    "name": "own.api.version",
+    "type": "java.lang.String",
+    "description": "A description for 'own.api.version'"
+  },
+  {
+    "name": "security.jwt.token",
+    "type": "java.lang.String",
+    "description": "A description for 'security.jwt.token'"
+  }
+]}

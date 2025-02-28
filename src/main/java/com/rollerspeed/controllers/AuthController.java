@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity; // <- Agrega esta import si no está
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,7 +18,7 @@ import com.rollerspeed.security.JwtUtil;
 import com.rollerspeed.security.TokenBlacklist;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("${api.auth.base}")
 public class AuthController {
 
     @Autowired
@@ -34,11 +34,10 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private TokenBlacklist tokenBlacklist; // Para invalidar tokens
+    private TokenBlacklist tokenBlacklist;
 
     @PostMapping("/register")
     public User registerUser(@RequestBody User user) {
-        // Se requiere role=ADMIN (restringido en SecurityConfig)
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
         return userRepository.save(user);
@@ -71,9 +70,6 @@ public class AuthController {
         return response;
     }
 
-    /**
-     * Retorna los datos del usuario actual extraídos del token
-     */
     @GetMapping("/me")
     public User getCurrentUser(@RequestHeader("Authorization") String token) {
         String username = jwtUtil.extractUsername(token.replace("Bearer ", ""));
@@ -81,9 +77,6 @@ public class AuthController {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     }
 
-    /**
-     * Realiza logout (invalida el token actual añadiéndolo a la blacklist)
-     */
     @PostMapping("/logout")
     public ResponseEntity<?> logout(@RequestHeader("Authorization") String authHeader) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
