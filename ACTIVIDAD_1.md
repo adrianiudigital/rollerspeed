@@ -100,17 +100,17 @@ git push -u origin main
 ✅ Implementación del **navbar con Thymeleaf**.  
 ✅ Subida del código a **GitHub**.  
 
-📌 **El video aún no ha sido grabado.**  
+📌 **El video fue grabado.**  
 
 ---
 
-## **❌ PASO 7: DOCUMENTO DE ENTREGA**  
+## **✅ PASO 7: DOCUMENTO DE ENTREGA**  
 📍 **El documento debe incluir:**  
 ✅ **Portada** con los integrantes del grupo.  
 ✅ **Introducción** explicando la actividad.  
 ✅ **Conclusión** sobre la experiencia y su impacto en el mundo laboral.  
 ✅ **Enlace al video de configuración**.  
 
-📌 **El documento aún no ha sido preparado.**  
+📌 **El documento fue preparado.**  
 
 ---
