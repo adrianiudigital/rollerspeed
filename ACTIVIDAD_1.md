@@ -77,7 +77,7 @@ CREATE DATABASE rollerspeed_db;
 
 ---
 
-## **❌ PASO 5: SUBIR EL CÓDIGO A GITHUB**  
+## **✅ PASO 5: SUBIR EL CÓDIGO A GITHUB**  
 📍 **Ejecutar los siguientes comandos:**  
 ```sh
 git init
@@ -88,29 +88,29 @@ git remote add origin https://github.com/TU_USUARIO/rollerspeed.git
 git push -u origin main
 ```
 
-📌 **El código aún no está en GitHub.**  
+📌 **El código está en GitHub.**  
 
 ---
 
-## **❌ PASO 6: GRABACIÓN DEL VIDEO DE INSTALACIÓN Y CONFIGURACIÓN**  
+## **✅ PASO 6: GRABACIÓN DEL VIDEO DE INSTALACIÓN Y CONFIGURACIÓN**  
 📍 **El video debe incluir:**  
-❌ Instalación de **Java JDK 17**, **VS Code**, **MySQL**.  
-❌ Creación del **proyecto en Spring Boot**.  
-❌ Configuración del **`application.properties`**.  
-❌ Implementación del **navbar con Thymeleaf**.  
-❌ Subida del código a **GitHub**.  
+✅ Instalación de **Java JDK 17**, **VS Code**, **MySQL**.  
+✅ Creación del **proyecto en Spring Boot**.  
+✅ Configuración del **`application.properties`**.  
+✅ Implementación del **navbar con Thymeleaf**.  
+✅ Subida del código a **GitHub**.  
 
-📌 **El video aún no ha sido grabado.**  
+📌 **El video fue grabado.**  
 
 ---
 
-## **❌ PASO 7: DOCUMENTO DE ENTREGA**  
+## **✅ PASO 7: DOCUMENTO DE ENTREGA**  
 📍 **El documento debe incluir:**  
-❌ **Portada** con los integrantes del grupo.  
-❌ **Introducción** explicando la actividad.  
-❌ **Conclusión** sobre la experiencia y su impacto en el mundo laboral.  
-❌ **Enlace al video de configuración**.  
+✅ **Portada** con los integrantes del grupo.  
+✅ **Introducción** explicando la actividad.  
+✅ **Conclusión** sobre la experiencia y su impacto en el mundo laboral.  
+✅ **Enlace al video de configuración**.  
 
-📌 **El documento aún no ha sido preparado.**  
+📌 **El documento fue preparado.**  
 
 ---
