@@ -1,10 +1,16 @@
 package com.rollerspeed.models;
 
+import com.rollerspeed.models.enums.UserRole;
+import com.rollerspeed.models.enums.UserStatus;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -45,9 +51,14 @@ public class User {
     private String email;
 
     @Column(nullable = false)
-    private String role; // ADMIN, INSTRUCTOR, STUDENT
+    private UserRole role;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    @Builder.Default
-    private String deleted = "ACTIVO"; // Opciones: ACTIVO, INACTIVO, BORRADO
+    private UserStatus status;
+
+    @PrePersist
+    public void prePersist() {
+        status = UserStatus.ACTIVE;
+    }
 }

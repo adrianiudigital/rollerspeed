@@ -16,7 +16,7 @@ public class ClassScheduleMapper {
                 .classDate(classSchedule.getClassDate())
                 .level(classSchedule.getLevel())
                 .instructorId(classSchedule.getInstructor().getId())
-                .locationId(classSchedule.getLocation().getId())
+                .trainingLocation(classSchedule.getTrainingLocation())
                 .status(classSchedule.getStatus())
                 .build();
     }
@@ -26,7 +26,7 @@ public class ClassScheduleMapper {
                 .classDate(classScheduleDTO.getClassDate())
                 .level(classScheduleDTO.getLevel())
                 .instructor(instructor)
-                .location(location)
+                .trainingLocation(location)
                 .status(classScheduleDTO.getStatus())
                 .build();
     }

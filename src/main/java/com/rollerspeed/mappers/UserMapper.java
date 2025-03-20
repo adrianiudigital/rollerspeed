@@ -15,7 +15,7 @@ public class UserMapper {
                 .fullName(user.getFullName())
                 .email(user.getEmail())
                 .role(user.getRole())
-                .deleted(user.getDeleted())
+                .status(user.getStatus())
                 .build();
     }
 
@@ -25,7 +25,7 @@ public class UserMapper {
                 .fullName(userDTO.getFullName())
                 .email(userDTO.getEmail())
                 .role(userDTO.getRole())
-                .deleted(userDTO.getDeleted())
+                .status(userDTO.getStatus())
                 .build();
     }
 }

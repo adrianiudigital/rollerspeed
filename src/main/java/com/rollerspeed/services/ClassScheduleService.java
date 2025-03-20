@@ -48,9 +48,9 @@ public class ClassScheduleService {
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Instructor no encontrado con ID: " + classScheduleDTO.getInstructorId()));
 
-        TrainingLocation location = locationRepository.findById(classScheduleDTO.getLocationId())
+        TrainingLocation location = locationRepository.findById(classScheduleDTO.getTrainingLocation().getId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Ubicación no encontrada con ID: " + classScheduleDTO.getLocationId()));
+                        "Ubicación no encontrada con ID: " + classScheduleDTO.getTrainingLocation().getId()));
 
         ClassSchedule classSchedule = classScheduleMapper.toEntity(classScheduleDTO, instructor, location);
         return classScheduleMapper.toDTO(classScheduleRepository.save(classSchedule));
@@ -62,14 +62,14 @@ public class ClassScheduleService {
                     .orElseThrow(() -> new IllegalArgumentException(
                             "Instructor no encontrado con ID: " + classScheduleDTO.getInstructorId()));
 
-            TrainingLocation location = locationRepository.findById(classScheduleDTO.getLocationId())
+            TrainingLocation trainingLocation = locationRepository.findById(classScheduleDTO.getId())
                     .orElseThrow(() -> new IllegalArgumentException(
-                            "Ubicación no encontrada con ID: " + classScheduleDTO.getLocationId()));
+                            "Ubicación no encontrada con ID: " + classScheduleDTO.getId()));
 
             classSchedule.setClassDate(classScheduleDTO.getClassDate());
             classSchedule.setLevel(classScheduleDTO.getLevel());
             classSchedule.setInstructor(instructor);
-            classSchedule.setLocation(location);
+            classSchedule.setTrainingLocation(trainingLocation);
             classSchedule.setStatus(classScheduleDTO.getStatus());
 
             return classScheduleMapper.toDTO(classScheduleRepository.save(classSchedule));

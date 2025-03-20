@@ -1,5 +1,8 @@
 package com.rollerspeed.dtos;
 
+import com.rollerspeed.models.enums.UserRole;
+import com.rollerspeed.models.enums.UserStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +19,7 @@ public class UserDTO {
     private String username;
     private String fullName;
     private String email;
-    private String role;
+    private UserRole role;
     private String password;
-    private String deleted; // Opciones: ACTIVO, INACTIVO, BORRADO
+    private UserStatus status;
 }

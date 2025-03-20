@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rollerspeed.models.User;
+import com.rollerspeed.models.enums.UserStatus;
 import com.rollerspeed.repositories.UserRepository;
 import com.rollerspeed.security.JwtUtil;
 import com.rollerspeed.security.TokenBlacklist;
@@ -52,7 +53,7 @@ public class AuthController {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setDeleted("ACTIVO");
+        user.setStatus(UserStatus.ACTIVE);
 
         userRepository.save(user);
 

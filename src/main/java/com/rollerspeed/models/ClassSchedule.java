@@ -45,7 +45,7 @@ public class ClassSchedule {
 
     @ManyToOne
     @JoinColumn(name = "location_id", nullable = false)
-    private TrainingLocation location;
+    private TrainingLocation trainingLocation;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.rollerspeed.dtos.UserDTO;
 import com.rollerspeed.mappers.UserMapper;
 import com.rollerspeed.models.User;
+import com.rollerspeed.models.enums.UserStatus;
 import com.rollerspeed.repositories.UserRepository;
 
 @Service
@@ -34,14 +35,14 @@ public class UserService {
 
     public Optional<UserDTO> getUserById(Long id) {
         return userRepository.findById(id)
-                .filter(user -> !user.getDeleted().equals("BORRADO"))
+                .filter(user -> !user.getStatus().equals(UserStatus.DELETED))
                 .map(userMapper::toDTO);
     }
 
     public UserDTO saveUser(UserDTO userDTO) {
         User user = userMapper.toEntity(userDTO);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        user.setDeleted("ACTIVO");
+        user.setStatus(UserStatus.ACTIVE);
         return userMapper.toDTO(userRepository.save(user));
     }
 
@@ -51,7 +52,7 @@ public class UserService {
             user.setFullName(userDTO.getFullName());
             user.setEmail(userDTO.getEmail());
             user.setRole(userDTO.getRole());
-            user.setDeleted(userDTO.getDeleted());
+            user.setStatus(userDTO.getStatus());
             if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()) {
                 user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
             }
@@ -62,7 +63,7 @@ public class UserService {
 
     public void deleteUser(Long id) {
         userRepository.findById(id).ifPresent(user -> {
-            user.setDeleted("BORRADO");
+            user.setStatus(UserStatus.DELETED);
             userRepository.save(user);
         });
     }

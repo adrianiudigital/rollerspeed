@@ -1,6 +1,8 @@
 package com.rollerspeed.security;
 
 import com.rollerspeed.models.User;
+import com.rollerspeed.models.enums.UserRole;
+import com.rollerspeed.models.enums.UserStatus;
 import com.rollerspeed.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,8 +31,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             defaultAdmin.setPassword(passwordEncoder.encode("1234"));
             defaultAdmin.setFullName("Administrador");
             defaultAdmin.setEmail("admin@example.com");
-            defaultAdmin.setRole("ADMIN");
-            defaultAdmin.setDeleted("ACTIVO");
+            defaultAdmin.setRole(UserRole.ADMIN);
+            defaultAdmin.setStatus(UserStatus.ACTIVE);
 
             userRepository.save(defaultAdmin);
             System.out.println("✅ Usuario admin creado con éxito.");

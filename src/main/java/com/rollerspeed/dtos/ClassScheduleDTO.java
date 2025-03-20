@@ -2,6 +2,7 @@ package com.rollerspeed.dtos;
 
 import java.time.LocalDateTime;
 
+import com.rollerspeed.models.TrainingLocation;
 import com.rollerspeed.models.enums.ClassStatus;
 
 import lombok.AllArgsConstructor;
@@ -20,6 +21,6 @@ public class ClassScheduleDTO {
     private LocalDateTime classDate;
     private String level;
     private Long instructorId;
-    private Long locationId;
+    private TrainingLocation trainingLocation;
     private ClassStatus status;
 }
