@@ -48,5 +48,6 @@ public class User {
     private String role; // ADMIN, INSTRUCTOR, STUDENT
 
     @Column(nullable = false)
-    private boolean enabled; // Indica si el usuario está activo
+    @Builder.Default
+    private String deleted = "ACTIVO"; // Opciones: ACTIVO, INACTIVO, BORRADO
 }

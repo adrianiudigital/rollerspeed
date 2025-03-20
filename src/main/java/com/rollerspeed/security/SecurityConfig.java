@@ -31,7 +31,7 @@ public class SecurityConfig {
                         .requestMatchers("/").permitAll()
                         .requestMatchers(apiRoutes.LOGIN).permitAll()
                         .requestMatchers(apiRoutes.ME).hasRole("ADMIN")
-                        .requestMatchers(apiRoutes.REGISTER).hasRole("ADMIN")
+                        .requestMatchers(apiRoutes.REGISTER).permitAll()//.hasRole("ADMIN")
                         .requestMatchers(apiRoutes.USERS + "/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

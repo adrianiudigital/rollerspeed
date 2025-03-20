@@ -1,25 +1,24 @@
 package com.rollerspeed.security;
 
-import com.rollerspeed.models.User;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
+import com.rollerspeed.models.User;
 
 public class UserDetailsImpl implements UserDetails {
 
     private String username;
     private String password;
-    private boolean enabled;
     private Collection<? extends GrantedAuthority> authorities;
 
     public UserDetailsImpl(User user) {
         this.username = user.getUsername();
         this.password = user.getPassword();
-        this.enabled = user.isEnabled();
-        this.authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole())); // Asegura que los roles sean correctos
+        this.authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
     }
 
     @Override
@@ -54,6 +53,6 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return true; //  Se eliminó la referencia a `user.isEnabled()`
     }
 }

@@ -10,7 +10,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.rollerspeed.models.User;
 import com.rollerspeed.repositories.UserRepository;
@@ -37,14 +42,25 @@ public class AuthController {
     private TokenBlacklist tokenBlacklist;
 
     @PostMapping("/register")
-    public User registerUser(@RequestBody User user) {
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+            return ResponseEntity.badRequest().body("Error: El nombre de usuario ya está en uso.");
+        }
+
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            return ResponseEntity.badRequest().body("Error: El correo ya está registrado.");
+        }
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setEnabled(true);
-        return userRepository.save(user);
+        user.setDeleted("ACTIVO");
+
+        userRepository.save(user);
+
+        return ResponseEntity.ok("Usuario registrado exitosamente.");
     }
 
     @PostMapping("/login")
-    public Map<String, String> loginUser(@RequestBody User user) {
+    public ResponseEntity<Map<String, String>> loginUser(@RequestBody User user) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
@@ -55,38 +71,25 @@ public class AuthController {
         Map<String, String> response = new HashMap<>();
         response.put("message", "Usuario autenticado correctamente");
         response.put("token", token);
-        return response;
-    }
-
-    @PostMapping("/refresh")
-    public Map<String, String> refreshToken(@RequestHeader("Authorization") String oldToken) {
-        String username = jwtUtil.extractUsername(oldToken.replace("Bearer ", ""));
-        String newToken = jwtUtil.generateToken(username);
-
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Token refrescado correctamente");
-        response.put("token", newToken);
-
-        return response;
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/me")
-    public User getCurrentUser(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<User> getCurrentUser(@RequestHeader("Authorization") String token) {
         String username = jwtUtil.extractUsername(token.replace("Bearer ", ""));
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<Map<String, String>> logout(@RequestHeader("Authorization") String authHeader) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return ResponseEntity.badRequest().body("No se proporcionó un token válido");
+            return ResponseEntity.badRequest().body(Map.of("message", "No se proporcionó un token válido"));
         }
         String token = authHeader.substring(7);
         tokenBlacklist.addToken(token);
 
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Logout exitoso; token invalidado");
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(Map.of("message", "Logout exitoso; token invalidado"));
     }
 }
