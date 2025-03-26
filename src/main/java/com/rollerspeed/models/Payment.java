@@ -1,6 +1,9 @@
 package com.rollerspeed.models;
 
-import com.rollerspeed.models.enums.LocationStatus;
+import java.time.LocalDateTime;
+
+import com.rollerspeed.models.enums.PaymentMethod;
+import com.rollerspeed.models.enums.PaymentStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,8 +12,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,24 +22,32 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "locations")
+@Table(name = "payments")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Location {
+public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    @NotBlank(message = "El name es obligatorio")
-    private String name;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "student_id")
+    private User student;
+
+    @Column(nullable = false)
+    private Double amount;
+
+    @Column(nullable = false)
+    private LocalDateTime paymentDate;
+
+    @Column(nullable = false)
+    private PaymentMethod paymentMethod;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private LocationStatus status;
-
+    private PaymentStatus paymentStatus;
 }

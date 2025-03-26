@@ -42,8 +42,7 @@ public class ClassScheduleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClassScheduleDTO> updateClass(@PathVariable Long id,
-            @RequestBody ClassScheduleDTO classScheduleDTO) {
+    public ResponseEntity<ClassScheduleDTO> updateClass(@PathVariable Long id, @RequestBody ClassScheduleDTO classScheduleDTO) {
         return ResponseEntity.ok(classScheduleService.updateClass(id, classScheduleDTO));
     }
 

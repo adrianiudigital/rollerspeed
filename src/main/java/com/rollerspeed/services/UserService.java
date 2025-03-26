@@ -27,7 +27,7 @@ public class UserService {
     private UserMapper userMapper;
 
     public List<UserDTO> getAllUsers() {
-        return userRepository.findByDeletedNot("BORRADO")
+        return userRepository.findByStatusNot(UserStatus.DELETED)
                 .stream()
                 .map(userMapper::toDTO)
                 .collect(Collectors.toList());
@@ -47,18 +47,34 @@ public class UserService {
     }
 
     public UserDTO updateUser(Long id, UserDTO userDTO) {
-        return userRepository.findById(id).map(user -> {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+
+        if (userDTO.getUsername() != null && !userDTO.getUsername().isBlank()) {
             user.setUsername(userDTO.getUsername());
+        }
+        if (userDTO.getFullName() != null && !userDTO.getFullName().isBlank()) {
             user.setFullName(userDTO.getFullName());
+        }
+        if (userDTO.getEmail() != null && !userDTO.getEmail().isBlank()) {
             user.setEmail(userDTO.getEmail());
+        }
+        if (userDTO.getRole() != null) {
             user.setRole(userDTO.getRole());
+        }
+        if (userDTO.getStatus() != null) {
             user.setStatus(userDTO.getStatus());
-            if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()) {
-                user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-            }
-            userRepository.save(user);
-            return userMapper.toDTO(user);
-        }).orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+        }
+        if (userDTO.getPassword() != null && !userDTO.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        }
+
+        User updated = userRepository.save(user);
+        return userMapper.toDTO(updated);
+    }
+
+    public User findByUsername(String userName) {
+        return userRepository.findByUsername(userName).get();
     }
 
     public void deleteUser(Long id) {

@@ -9,9 +9,12 @@ import org.springframework.stereotype.Service;
 
 import com.rollerspeed.dtos.ClassScheduleDTO;
 import com.rollerspeed.mappers.ClassScheduleMapper;
+import com.rollerspeed.models.Attendance;
 import com.rollerspeed.models.ClassSchedule;
 import com.rollerspeed.models.TrainingLocation;
 import com.rollerspeed.models.User;
+import com.rollerspeed.models.enums.ClassStatus;
+import com.rollerspeed.repositories.AttendanceRepository;
 import com.rollerspeed.repositories.ClassScheduleRepository;
 import com.rollerspeed.repositories.TrainingLocationRepository;
 import com.rollerspeed.repositories.UserRepository;
@@ -26,10 +29,13 @@ public class ClassScheduleService {
     private UserRepository userRepository;
 
     @Autowired
-    private TrainingLocationRepository locationRepository;
+    private TrainingLocationRepository trainingLocationRepository;
 
     @Autowired
     private ClassScheduleMapper classScheduleMapper;
+
+    @Autowired
+    private AttendanceRepository attendanceRepository;
 
     public List<ClassScheduleDTO> getAllClasses() {
         return classScheduleRepository.findAll()
@@ -48,21 +54,23 @@ public class ClassScheduleService {
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Instructor no encontrado con ID: " + classScheduleDTO.getInstructorId()));
 
-        TrainingLocation location = locationRepository.findById(classScheduleDTO.getTrainingLocation().getId())
+        TrainingLocation trainingLocation = trainingLocationRepository
+                .findById(classScheduleDTO.getTrainingLocation().getId())
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Ubicación no encontrada con ID: " + classScheduleDTO.getTrainingLocation().getId()));
 
-        ClassSchedule classSchedule = classScheduleMapper.toEntity(classScheduleDTO, instructor, location);
+        ClassSchedule classSchedule = classScheduleMapper.toEntity(classScheduleDTO, instructor, trainingLocation);
         return classScheduleMapper.toDTO(classScheduleRepository.save(classSchedule));
     }
 
     public ClassScheduleDTO updateClass(Long id, ClassScheduleDTO classScheduleDTO) {
+        classScheduleDTO.setId(id);
         return classScheduleRepository.findById(id).map(classSchedule -> {
             User instructor = userRepository.findById(classScheduleDTO.getInstructorId())
                     .orElseThrow(() -> new IllegalArgumentException(
                             "Instructor no encontrado con ID: " + classScheduleDTO.getInstructorId()));
-
-            TrainingLocation trainingLocation = locationRepository.findById(classScheduleDTO.getId())
+            System.out.print(classScheduleDTO);
+            TrainingLocation trainingLocation = trainingLocationRepository.findById(classScheduleDTO.getId())
                     .orElseThrow(() -> new IllegalArgumentException(
                             "Ubicación no encontrada con ID: " + classScheduleDTO.getId()));
 
@@ -80,6 +88,31 @@ public class ClassScheduleService {
         if (!classScheduleRepository.existsById(id)) {
             throw new IllegalArgumentException("No se encontró la clase con ID: " + id);
         }
-        classScheduleRepository.deleteById(id);
+        ClassSchedule classSchedule = classScheduleRepository.getReferenceById(id);
+        if (classSchedule.getStatus() != ClassStatus.DELETED) {
+            classSchedule.setStatus(ClassStatus.DELETED);
+            classScheduleRepository.save(classSchedule);
+        }
     }
+
+    public List<ClassScheduleDTO> getClassesByInstructor(Long instructorId) {
+        return classScheduleRepository.findAll().stream()
+                .filter(c -> c.getInstructor().getId().equals(instructorId))
+                .map(classScheduleMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<ClassScheduleDTO> getClassesByStudent(Long studentId) {
+        List<Attendance> attendances = attendanceRepository.findByPresentStudentsContaining(
+                userRepository.findById(studentId)
+                        .orElseThrow(
+                                () -> new IllegalArgumentException("Estudiante no encontrado con ID: " + studentId)));
+
+        return attendances.stream()
+                .map(att -> att.getClassSchedule())
+                .distinct()
+                .map(classScheduleMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
 }

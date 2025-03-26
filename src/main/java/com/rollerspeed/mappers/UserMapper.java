@@ -1,5 +1,8 @@
 package com.rollerspeed.mappers;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 import com.rollerspeed.dtos.UserDTO;
@@ -27,5 +30,17 @@ public class UserMapper {
                 .role(userDTO.getRole())
                 .status(userDTO.getStatus())
                 .build();
+    }
+
+    public List<UserDTO> toDTOList(List<User> users) {
+        return users.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<User> toEntityList(List<UserDTO> userDTOs) {
+        return userDTOs.stream()
+                .map(this::toEntity)
+                .collect(Collectors.toList());
     }
 }

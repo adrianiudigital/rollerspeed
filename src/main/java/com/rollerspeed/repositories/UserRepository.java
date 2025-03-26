@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.rollerspeed.models.User;
+import com.rollerspeed.models.enums.UserStatus;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -14,6 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
 
-    // Excluir usuarios eliminados
-    List<User> findByDeletedNot(String deleted);
+    
+    List<User> findByStatusNot(UserStatus status);
 }

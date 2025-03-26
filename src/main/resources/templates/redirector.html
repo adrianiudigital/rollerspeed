@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirigiendo...</title>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const cookies = document.cookie.split(";");
+        let role = null;
+
+        cookies.forEach((cookie) => {
+          const [name, value] = cookie.trim().split("=");
+          if (name === "USER_ROLE") {
+            role = value.toLowerCase();
+          }
+        });
+
+        if (!role) {
+          window.location.href = "/login";
+          return;
+        }
+
+        let target = "/dashboard/" + role;
+        window.location.href = target;
+      });
+    </script>
+  </head>
+  <body>
+    <p class="text-center mt-5">Redirigiendo a tu panel...</p>
+  </body>
+</html>

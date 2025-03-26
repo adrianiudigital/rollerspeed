@@ -5,11 +5,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,57 +13,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rollerspeed.models.User;
-import com.rollerspeed.models.enums.UserStatus;
-import com.rollerspeed.repositories.UserRepository;
-import com.rollerspeed.security.JwtUtil;
-import com.rollerspeed.security.TokenBlacklist;
+import com.rollerspeed.services.AuthService;
 
 @RestController
 @RequestMapping("${api.auth.base}")
 public class AuthController {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
-    private TokenBlacklist tokenBlacklist;
+    private AuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
-        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+        if (authService.usernameExists(user.getUsername())) {
             return ResponseEntity.badRequest().body("Error: El nombre de usuario ya está en uso.");
         }
 
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+        if (authService.emailExists(user.getEmail())) {
             return ResponseEntity.badRequest().body("Error: El correo ya está registrado.");
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setStatus(UserStatus.ACTIVE);
-
-        userRepository.save(user);
-
+        authService.register(user);
         return ResponseEntity.ok("Usuario registrado exitosamente.");
     }
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> loginUser(@RequestBody User user) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String token = jwtUtil.generateToken(user.getUsername());
-
+        String token = authService.login(user.getUsername(), user.getPassword());
         Map<String, String> response = new HashMap<>();
         response.put("message", "Usuario autenticado correctamente");
         response.put("token", token);
@@ -77,8 +47,7 @@ public class AuthController {
 
     @GetMapping("/me")
     public ResponseEntity<User> getCurrentUser(@RequestHeader("Authorization") String token) {
-        String username = jwtUtil.extractUsername(token.replace("Bearer ", ""));
-        return userRepository.findByUsername(username)
+        return authService.getCurrentUser(token)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -88,9 +57,7 @@ public class AuthController {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity.badRequest().body(Map.of("message", "No se proporcionó un token válido"));
         }
-        String token = authHeader.substring(7);
-        tokenBlacklist.addToken(token);
-
+        authService.logout(authHeader.substring(7));
         return ResponseEntity.ok(Map.of("message", "Logout exitoso; token invalidado"));
     }
 }

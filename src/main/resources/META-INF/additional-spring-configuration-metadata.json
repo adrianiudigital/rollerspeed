@@ -63,5 +63,90 @@
     "name": "api.classes.base",
     "type": "java.lang.String",
     "description": "A description for 'api.classes.base'"
+  },
+  {
+    "name": "api.attendance.base",
+    "type": "java.lang.String",
+    "description": "A description for 'api.attendance.base'"
+  },
+  {
+    "name": "routes.public.home",
+    "type": "java.lang.String",
+    "description": "A description for 'routes.public.home'"
+  },
+  {
+    "name": "routes.public.mision",
+    "type": "java.lang.String",
+    "description": "A description for 'routes.public.mision'"
+  },
+  {
+    "name": "routes.public.mision",
+    "type": "java.lang.String",
+    "description": "A description for 'routes.public.mision'"
+  },
+  {
+    "name": "routes.public.vision",
+    "type": "java.lang.String",
+    "description": "A description for 'routes.public.vision'"
+  },
+  {
+    "name": "routes.public.valores",
+    "type": "java.lang.String",
+    "description": "A description for 'routes.public.valores'"
+  },
+  {
+    "name": "routes.public.servicios",
+    "type": "java.lang.String",
+    "description": "A description for 'routes.public.servicios'"
+  },
+  {
+    "name": "routes.public.eventos",
+    "type": "java.lang.String",
+    "description": "A description for 'routes.public.eventos'"
+  },
+  {
+    "name": "routes.public.login",
+    "type": "java.lang.String",
+    "description": "A description for 'routes.public.login'"
+  },
+  {
+    "name": "routes.public.register",
+    "type": "java.lang.String",
+    "description": "A description for 'routes.public.register'"
+  },
+  {
+    "name": "routes.admin.dashboard",
+    "type": "java.lang.String",
+    "description": "A description for 'routes.admin.dashboard'"
+  },
+  {
+    "name": "routes.instructor.dashboard",
+    "type": "java.lang.String",
+    "description": "A description for 'routes.instructor.dashboard'"
+  },
+  {
+    "name": "routes.student.dashboard",
+    "type": "java.lang.String",
+    "description": "A description for 'routes.student.dashboard'"
+  },
+  {
+    "name": "constants.strings.values.users.roles.admin",
+    "type": "java.lang.String",
+    "description": "A description for 'constants.strings.values.users.roles.admin'"
+  },
+  {
+    "name": "constants.strings.values.users.roles.instructor",
+    "type": "java.lang.String",
+    "description": "A description for 'constants.strings.values.users.roles.instructor'"
+  },
+  {
+    "name": "constants.strings.values.users.roles.student",
+    "type": "java.lang.String",
+    "description": "A description for 'constants.strings.values.users.roles.student'"
+  },
+  {
+    "name": "routes.logout.success.url",
+    "type": "java.lang.String",
+    "description": "A description for 'routes.logout.success.url'"
   }
 ]}

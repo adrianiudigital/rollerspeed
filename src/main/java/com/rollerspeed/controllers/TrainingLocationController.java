@@ -14,41 +14,42 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rollerspeed.dtos.LocationDTO;
-import com.rollerspeed.services.LocationService;
+import com.rollerspeed.dtos.TrainingLocationDTO;
+import com.rollerspeed.services.TrainingLocationService;
 
 @RestController
 @RequestMapping("${api.base-path}/locations")
-public class LocationController {
+public class TrainingLocationController {
 
     @Autowired
-    private LocationService locationService;
+    private TrainingLocationService trainingLocationService;
 
     @GetMapping
-    public List<LocationDTO> getAllLocations() {
-        return locationService.getAllLocations();
+    public List<TrainingLocationDTO> getAllLocations() {
+        return trainingLocationService.getAllLocations();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LocationDTO> getLocationById(@PathVariable Long id) {
-        Optional<LocationDTO> location = locationService.getLocationById(id);
+    public ResponseEntity<TrainingLocationDTO> getLocationById(@PathVariable Long id) {
+        Optional<TrainingLocationDTO> location = trainingLocationService.getLocationById(id);
         return location.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<LocationDTO> createLocation(@RequestBody LocationDTO locationDTO) {
-        return ResponseEntity.ok(locationService.saveLocation(locationDTO));
+    public ResponseEntity<TrainingLocationDTO> createLocation(@RequestBody TrainingLocationDTO trainingLocationDTO) {
+        return ResponseEntity.ok(trainingLocationService.saveLocation(trainingLocationDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LocationDTO> updateLocation(@PathVariable Long id, @RequestBody LocationDTO locationDTO) {
-        return ResponseEntity.ok(locationService.updateLocation(id, locationDTO));
+    public ResponseEntity<TrainingLocationDTO> updateLocation(@PathVariable Long id,
+            @RequestBody TrainingLocationDTO trainingLocationDTO) {
+        return ResponseEntity.ok(trainingLocationService.updateLocation(id, trainingLocationDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteLocation(@PathVariable Long id) {
-        locationService.deleteLocation(id);
+        trainingLocationService.deleteLocationStatus(id);
         return ResponseEntity.noContent().build();
     }
 }

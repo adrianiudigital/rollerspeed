@@ -21,12 +21,12 @@ public class ClassScheduleMapper {
                 .build();
     }
 
-    public ClassSchedule toEntity(ClassScheduleDTO classScheduleDTO, User instructor, TrainingLocation location) {
+    public ClassSchedule toEntity(ClassScheduleDTO classScheduleDTO, User instructor, TrainingLocation trainingLocation) {
         return ClassSchedule.builder()
                 .classDate(classScheduleDTO.getClassDate())
                 .level(classScheduleDTO.getLevel())
                 .instructor(instructor)
-                .trainingLocation(location)
+                .trainingLocation(trainingLocation)
                 .status(classScheduleDTO.getStatus())
                 .build();
     }

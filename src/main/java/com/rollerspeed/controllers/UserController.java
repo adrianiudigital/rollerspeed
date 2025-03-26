@@ -17,7 +17,7 @@ import com.rollerspeed.dtos.UserDTO;
 import com.rollerspeed.services.UserService;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("${api.users.base}")
 public class UserController {
 
     @Autowired

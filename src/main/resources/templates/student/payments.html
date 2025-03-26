@@ -1,0 +1,42 @@
+<!-- student/payments.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Pagos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-5">
+    <h2 class="mb-4">Mis Pagos</h2>
+
+    <div th:if="${#lists.isEmpty(payments)}" class="alert alert-warning">
+        Aún no tienes pagos registrados.
+    </div>
+
+    <table th:if="${not #lists.isEmpty(payments)}" class="table table-bordered table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>Fecha</th>
+            <th>Monto</th>
+            <th>Método</th>
+            <th>Estado</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pago : ${payments}">
+            <td th:text="${#temporals.format(pago.paymentDate, 'yyyy-MM-dd HH:mm')}">2025-04-01</td>
+            <td th:text="${pago.amount}">$50.000</td>
+            <td th:text="${pago.paymentMethod}">Efectivo</td>
+            <td th:text="${pago.paymentStatus}">PENDIENTE</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

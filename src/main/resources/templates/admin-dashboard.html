@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Administrador</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Bienvenido Administrador</h1>
+
+    <div class="col">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">Ver Usuarios</h5>
+                <p class="card-text">Consulta todos los usuarios del sistema, su rol y estado.</p>
+                <a href="/dashboard/admin/users" class="btn btn-dark">Ir a Usuarios</a>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Registrar Usuario</h5>
+                    <p class="card-text">Agregar nuevos usuarios al sistema con sus respectivos roles.</p>
+                    <a href="/admin/register" class="btn btn-dark">Ir a Registro</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Gestionar Clases</h5>
+                    <p class="card-text">Administrar los horarios, niveles e instructores de las clases.</p>
+                    <a href="/dashboard/admin/schedule" class="btn btn-dark">Ir a Clases</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Gestionar Pagos</h5>
+                    <p class="card-text">Verificar pagos realizados por estudiantes y confirmar estados.</p>
+                    <a href="/dashboard/admin/payments" class="btn btn-dark">Ir a Pagos</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Registrar Asistencia</h5>
+                    <p class="card-text">Asignar y marcar asistencia por clase o por estudiante.</p>
+                    <a href="/dashboard/admin/attendance" class="btn btn-dark">Ir a Asistencia</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
