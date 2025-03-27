@@ -54,13 +54,17 @@ public class SecurityConfig {
                                 apiRoutes.PUBLIC_SERVICIOS,
                                 apiRoutes.PUBLIC_EVENTOS,
                                 "/redirector",
-                                apiRoutes.PUBLIC_LOGIN)
+                                apiRoutes.PUBLIC_LOGIN,
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**"
+                        )
                         .permitAll()
                         .requestMatchers("/dashboard/admin/**").hasRole(rolesDefined.ROLE_ADMIN)
                         .requestMatchers("/dashboard/instructor/**").hasRole(rolesDefined.INSTRUCTOR)
                         .requestMatchers("/dashboard/student/**").hasRole(rolesDefined.STUDENT)
                         .anyRequest().authenticated())
-                        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
 
                 .csrf(csrf -> csrf.disable());
 

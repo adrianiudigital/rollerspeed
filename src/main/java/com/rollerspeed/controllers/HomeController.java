@@ -1,7 +1,6 @@
 package com.rollerspeed.controllers;
 
 import java.security.Principal;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.rollerspeed.dtos.ClassScheduleDTO;
 import com.rollerspeed.dtos.UserDTO;
 import com.rollerspeed.dtos.UserMinimalDTO;
 import com.rollerspeed.services.HomeService;
